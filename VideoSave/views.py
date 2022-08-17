@@ -6,7 +6,6 @@ from .serializers import VideoSerializer
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
-from .tasks import Check
 
 # Create your views here.
 
@@ -17,7 +16,6 @@ class SaveVideoAPI(APIView):
     def get(self, request):
         data = VideoSave.objects.filter(user_id=request.user.id)
         serializer = VideoSerializer(data, many=True)
-        Check.delay()
         return Response(serializer.data)
 
     def post(self, request):
